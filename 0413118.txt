@@ -1,0 +1,8 @@
+0413118 黃大祐
+
+https://github.com/d86518/R-Progamming
+
+Readme is inside the github.
+
+這次花費比較多時間在於理解Markdown的寫法
+其餘操作的部分照著助教的指令走
