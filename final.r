@@ -1,20 +1,14 @@
-#Final project - —a‘ªŒð‘å–¾”N’j—”ä
+#Final project - é æ¸¬äº¤å¤§æ˜Žå¹´ç”·å¥³æ¯”
 
-#Œð‘å›{Žm”Ç“ü›{’j—”ä
+#äº¤å¤§å­¸å£«ç­å…¥å­¸ç”·å¥³æ¯”
 NCTU<-matrix(c(1:10), nrow = 10, ncol = 1)
-#[,1]<-’j ‘OŒÜtrain ŒãŒÜtest
-NCTU[,1]<-c(2.512
-            ,2.611
-            ,2.346
-            ,2.305 
-            ,2.185
-            ,2.316
-            ,2.227 
+#[,1]<-ç”· å‰äº”train å¾Œäº”test
+NCTU[,1]<-c(2.512,2.611,2.346,2.305 ,2.185,2.316,2.227 
             ,2.458 
             ,2.254 
-            ,2.195)
+            ,2.195 )
 
-#‘Sš ‘å›“Z‰@›{Žm”Ç“ü›{’j—”ä
+#å…¨åœ‹å¤§å°ˆæ ¡é™¢å­¸å£«ç­å…¥å­¸ç”·å¥³æ¯”
 ALL<-matrix(c(1:20), nrow = 10, ncol = 1)
 ALL[,1]<-c(1.04415372
            ,1.035662886
@@ -27,12 +21,34 @@ ALL[,1]<-c(1.04415372
            ,0.976290986
            ,0.97547662)
 
-#ác”No¶’j—”ä(Ex:104›{”N“ü›{C86”No¶)
+#ç•¶å¹´å‡ºç”Ÿç”·å¥³æ¯”(Ex:104å­¸å¹´å…¥å­¸ï¼Œ86å¹´å‡ºç”Ÿ)
 BORN<-matrix(c(1:20), nrow = 10, ncol = 1)
 BORN[,1]<-c(1.103,1.104,1.099,1.081,1.089,1.079,1.088,1.089,1.087,1.095)
 
 
-#TOTAL =  ã`DATA
+#å–®è¿´æ­¸
+train<-matrix(c(1:15), nrow = 5, ncol = 3)
+test<-matrix(c(1:10), nrow = 5, ncol = 2)
+#train:test = 5:5
+train[,1]<-NCTU[1:5,1] #tr
+train[,2]<-ALL[1:5,1] #tr
+train[,3]<-BORN[1:5,1] #tr
+#test[,1]<-NCTU[6:10,1] #t
+test[,1]<-ALL[6:10,1] #t
+test[,2]<-BORN[6:10,1]  #t
+train <- data.frame(train)
+test <- data.frame(test)
+#weight<- data.frame(weight)
+
+
+#linear regression NCTU = ALL + BORN
+BG_per <- lm(X1 ~ X2 , data = train )
+summary(BG_per)
+prediction <- predict(BG_per, data = test )
+print(sum(abs(prediction-NCTU[6:10,1])))
+
+#è¤‡è¿´æ­¸
+#TOTAL =  ç¸½DATA
 train<-matrix(c(1:15), nrow = 5, ncol = 3)
 test<-matrix(c(1:10), nrow = 5, ncol = 2)
 #train:test = 5:5
@@ -47,7 +63,8 @@ test <- data.frame(test)
 #weight<- data.frame(weight)
 
 #linear regression NCTU = ALL + BORN
-BG_per <- lm(X1 ~ X2 + X3 , data = train ) 
+BG_per <- lm(X1 ~ X2 + X3 , data = train )
+vif(BG_per, digits = 2)
 summary(BG_per)
 prediction <- predict(BG_per, data = test )
 print(sum(abs(prediction-NCTU[6:10,1])))
@@ -67,6 +84,7 @@ test2 <- data.frame(test2)
 #linear regression NCTU = ALL + BORN
 BG_per <- lm(X1 ~ X2 +X3,data = train2 ) 
 summary(BG_per)
+vif(BG_per, digits = 2)
 #y = 3.563*X2 + 6.068*X3 -7.902
 prediction <- 3.563*ALL[7:10,1] + 6.068*BORN[7:10,1]-7.902
 print(sum(abs(prediction-NCTU[7:10,1])))
@@ -90,19 +108,17 @@ summary(BG_per)
 prediction <- -0.02791*ALL[9:10,1] + 10.36500*BORN[9:10,1]-8.91507
 print(sum(abs(prediction-NCTU[9:10,1])))
 
+residuals1<-c(-0.07274,  0.11930, -0.04169, 0.04430, -0.04917 )
+plot(density(residuals1))
+qqnorm(residuals1)
+qqline(residuals1)
 
-#linear regression NCTU = 1.2*ALL + BORN
-#train[,1]<-NCTU[1:5,1] #tr
-#train[,2]<-1.5*ALL[1:5,1] #tr
-#train[,3]<-BORN[1:5,1] #tr
-#test[,1]<-NCTU[6:10,1] #t
-#test[,1]<-ALL[6:10,1] #t
-#test[,2]<-BORN[6:10,1]  #t
-#train <- data.frame(train)
-#test <- data.frame(test)
-#weight<- data.frame(weight)
+residuals2<-c( 0.0006126 , 0.1237998, -0.0833052 , 0.0063804, -0.1456354,  0.0981479  )
+plot(density(residuals2))
+qqnorm(residuals2)
+qqline(residuals2)
 
-#BG_per <- lm(X1 ~ X2 + X3 , data = train ) 
-#summary(BG_per)
-#prediction <- predict(BG_per, data = test )
-#print(sum(abs(prediction-NCTU[6:10,1])))
+residuals3<-c( 0.02361 , 0.11201 ,-0.10138  ,0.04402, -0.15903,  0.07521, -0.10746 , 0.11303  )
+plot(density(residuals3))
+qqnorm(residuals3)
+qqline(residuals3)
